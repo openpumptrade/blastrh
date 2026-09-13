@@ -18,7 +18,7 @@
   :root {
     --bg: #f4f4f4; --card: #ffffff; --tile: #ececec; --tile2: rgba(17,17,17,0.04);
     --ink: #111111; --muted: #6f6f6f; --hair: rgba(17,17,17,0.08);
-    --blast: #91fa36; --blast-deep: #7de520; --blast-soft: #dfffbf; --blast-pale: #f0ffdc; --gold: #91fa36; --coal: #041004; --ember: #5fd80f;
+    --blast: #b6fb0a; --blast-deep: #9fe000; --blast-soft: #e6ffb0; --blast-pale: #f3ffd6; --gold: #b6fb0a; --coal: #041004; --ember: #5fd80f;
     --green: #2fd10f; --amber: #f5a524; --red: #e5484d; --blue: #4c7dff;
     --r: 32px; --r2: 20px; --r3: 16px;
     --shadow: 0 1px 2px rgba(17,17,17,0.04), 0 12px 40px rgba(17,17,17,0.06);
@@ -62,7 +62,7 @@
   /* hero */
   .hero { margin-top: 18px; border-radius: var(--r); padding: 44px 40px; background: var(--blast); box-shadow: var(--shadow); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; overflow: hidden; position: relative; }
   .hero .art { display: grid; place-items: center; }
-  .hero .art img { width: min(100%, 500px); aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(1,13,1,0.35)); animation: float 6s ease-in-out infinite; }
+  .hero .art img { width: min(100%, 500px); aspect-ratio: 1; object-fit: contain; animation: float 6s ease-in-out infinite; }
   @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg) scale(1); } 50% { transform: translateY(-14px) rotate(1deg) scale(1.03); } }
   @media (prefers-reduced-motion: reduce) { .hero .art img { animation: none; } }
   .hero .eyebrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
@@ -519,7 +519,7 @@ function draw() {
   }
   ctx.beginPath(); line.forEach((p, i) => (i ? ctx.lineTo(X(p.t), Y(p.p)) : ctx.moveTo(X(p.t), Y(p.p))));
   ctx.lineTo(X(line[line.length - 1].t), H - padB); ctx.lineTo(X(line[0].t), H - padB); ctx.closePath();
-  const grad = ctx.createLinearGradient(0, padT, 0, H - padB); grad.addColorStop(0, "rgba(145,250,54,0.28)"); grad.addColorStop(1, "rgba(145,250,54,0)");
+  const grad = ctx.createLinearGradient(0, padT, 0, H - padB); grad.addColorStop(0, "rgba(182,251,10,0.3)"); grad.addColorStop(1, "rgba(182,251,10,0)");
   ctx.fillStyle = grad; ctx.fill();
   ctx.lineWidth = 2.2; ctx.lineJoin = "round"; ctx.lineCap = "round"; ctx.strokeStyle = "#111";
   ctx.beginPath(); line.forEach((p, i) => (i ? ctx.lineTo(X(p.t), Y(p.p)) : ctx.moveTo(X(p.t), Y(p.p)))); ctx.stroke();
@@ -527,7 +527,7 @@ function draw() {
   if (tail && tail.live) { ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(X(tail.t), Y(tail.p), 4, 0, Math.PI * 2); ctx.fill(); }
   for (const b of dots) {
     const rr = 7;
-    ctx.fillStyle = b.dry ? "#c9ffa1" : "#041004"; ctx.strokeStyle = "#91fa36"; ctx.lineWidth = 2;
+    ctx.fillStyle = b.dry ? "#d6ff8a" : "#041004"; ctx.strokeStyle = "#b6fb0a"; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(X(b.t), Y(b.p), rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     ctx.fillStyle = "#fff"; ctx.font = "600 9px Inter, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("🔥", X(b.t), Y(b.p) + 0.5);
   }

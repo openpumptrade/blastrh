@@ -202,7 +202,7 @@
 <body>
 <div class="nav"><div class="wrap">
   <a class="brand" href="#top"><img src="/icon.png" alt=""><span id="nav-brand">BLAST</span></a>
-  <nav class="tabs" id="tabs"><a href="#live" class="on">Live</a><a href="#how">How</a><a href="#rules">Rules</a><a href="#blasts">Blasts</a></nav>
+  <nav class="tabs" id="tabs"><a href="#live" class="on">Live</a><a href="#how">How</a><a href="#rules">Rules</a><a href="#blasts">Blasts</a><a href="#launchpad">Launchpad</a></nav>
   <div class="right" id="links"><span class="pill ghost small hide-sm">pons · Robinhood Chain</span></div>
 </div></div>
 
@@ -288,6 +288,27 @@
     </div>
   </section>
 
+  <section class="card" id="launchpad" style="background:var(--coal);color:#fff">
+    <div class="grid two" style="align-items:center">
+      <div>
+        <span class="chip" style="background:var(--blast);color:var(--coal);font-weight:600">NEW · the launchpad</span>
+        <h2 style="color:#fff;margin-top:14px">Launch your own <span class="serif" style="color:var(--blast)">BLAST.</span></h2>
+        <p class="lead" style="color:#bfd4ba">Any coin launched on the pad blasts on its own, on the same clock as $BLAST. Every 3 minutes its fees become <b style="color:#fff">one buy into its chart, burned</b>. And every one of those blasts also buys and burns <b style="color:#fff">$BLAST</b>.</p>
+        <div class="grid three" style="gap:10px;margin-bottom:20px">
+          <div class="tile" style="background:rgba(255,255,255,0.07)"><b style="display:block;font-size:26px;color:var(--blast)">90%</b><small style="color:#8fa88a">one buy of your coin → burned</small></div>
+          <div class="tile" style="background:rgba(255,255,255,0.07)"><b style="display:block;font-size:26px;color:var(--blast)">7%</b><small style="color:#8fa88a">one buy of $BLAST → burned</small></div>
+          <div class="tile" style="background:rgba(255,255,255,0.07)"><b style="display:block;font-size:26px;color:var(--blast)">3%</b><small style="color:#8fa88a">keeps the pad running</small></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="pill hot" href="https://launch.experimentblast.com" target="_blank" rel="noopener">Launch a coin ↗</a><a class="pill" href="https://launch.experimentblast.com/#coins" target="_blank" rel="noopener">See the coins</a></div>
+      </div>
+      <div class="tile" style="background:rgba(255,255,255,0.07);padding:22px">
+        <h3 style="color:#8fa88a">More coins on the pad = less $BLAST</h3>
+        <p style="margin:0;color:#bfd4ba;font-size:15px;line-height:1.6">Connect a wallet, drop a logo, send the ETH. Pons deploys it, the engine runs the blasts. Nothing to babysit, ever. Each coin gets a live dashboard exactly like this one.</p>
+        <p style="margin:12px 0 0;color:#bfd4ba;font-size:15px;line-height:1.6">Every blast of every coin buys $BLAST with 7% of its fees and burns it. Other people's coins fund the $BLAST burn.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="card" id="blasts-card">
     <h2 id="blasts">Blasts</h2>
     <p class="lead" id="blasts-sub"></p>
@@ -339,7 +360,7 @@ async function loadInfo() {
   EXPLORER = (info.links?.tx || EXPLORER + "/tx/").replace(/\/tx\/$/, "");
   $("symbol").textContent = `${SYM()} · ${info.phase === 2 ? "Uniswap v4" : info.phase === 1 ? "graduating" : "bonding curve"}`;
   $("links").innerHTML = `<span class="pill ghost small hide-sm">pons · Robinhood Chain</span><a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy $BLAST ↗</a>`;
-  $("cta").innerHTML = `<a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy ${SYM()} ↗</a><a class="pill" href="#blasts">See the blasts</a><span class="pill ghost mono" id="ca" title="copy contract address">${short(info.token)} ⧉</span>`;
+  $("cta").innerHTML = `<a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy ${SYM()} ↗</a><a class="pill" href="#blasts">See the blasts</a><a class="pill" href="https://launch.experimentblast.com" target="_blank" rel="noopener">Launch your own ↗</a><span class="pill ghost mono" id="ca" title="copy contract address">${short(info.token)} ⧉</span>`;
   $("ca").onclick = () => { navigator.clipboard.writeText(info.token); $("ca").textContent = "copied"; setTimeout(() => $("ca").textContent = `${short(info.token)} ⧉`, 1200); };
   const fl = [`<a class="pill small" href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>`, `<a class="pill small" href="${info.links.pons}" target="_blank" rel="noopener">pons</a>`, `<a class="pill small" href="${info.links.wallet}" target="_blank" rel="noopener">Engine wallet</a>`];
   if (info.brand?.twitter) fl.push(`<a class="pill small" href="${info.brand.twitter}" target="_blank" rel="noopener">X</a>`);
@@ -609,7 +630,7 @@ async function loadBlasts() {
 }
 
 // ---------------------------------------------------------------- nav + boot
-const sections = ["live", "how", "rules", "blasts-card"];
+const sections = ["live", "how", "rules", "launchpad", "blasts-card"];
 window.addEventListener("scroll", () => {
   let cur = "live";
   for (const id of sections) { const el = $(id); if (el && el.getBoundingClientRect().top < 140) cur = id; }

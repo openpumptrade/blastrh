@@ -58,7 +58,7 @@ export async function readPot() {
   pot.walletEth = walletEth;
   pot.spendableEth = Math.max(0, walletEth - config.rules.gasReserveEth);
   pot.walletTokens = Number(tokensRaw) / 1e18;
-  const est = escrow + (mode() === "bot" ? pot.spendableEth : 0);
+  const est = escrow + unswept + (mode() === "bot" ? pot.spendableEth : 0);
   if (est > 0) {
     try { pot.estTokens = Number(await quoteBuy(launch, BigInt(Math.floor(est * 10 ** launch.quoteDecimals)), wallet)) / 1e18; }
     catch { /* keep the previous estimate */ }

@@ -358,7 +358,7 @@ async function loadInfo() {
   $("k-pct").textContent = `${((info.supply0 ? burned / info.supply0 : 0) * 100).toFixed(3)}%`;
   $("k-sol").textContent = `${fmt(spentSol, 4)} ETH`; $("k-sol-l").textContent = `${info.ethUsd ? usd(spentSol * info.ethUsd) + " " : ""}blasted into the chart${DRY() ? " (dry)" : ""}`;
   $("k-blasts").textContent = blastsRun;
-  const potAll = (info.pot?.escrowEth || 0) + (DRY() ? 0 : (info.pot?.spendableEth || 0));
+  const potAll = (info.pot?.escrowEth || 0) + (info.pot?.unsweptEth || 0) + (DRY() ? 0 : (info.pot?.spendableEth || 0));
   $("s-pot").textContent = `${fmt(potAll, 4)} ETH`;
   const lb = info.lastBlast;
   if (lb && lb.status === "done") { $("s-last").textContent = `🔥 ${compact(lb.tokensBurned)}`; $("s-last-l").textContent = `last blast · ${fmt(lb.spentEth, 4)} ETH · ${ago(lb.t)}`; }

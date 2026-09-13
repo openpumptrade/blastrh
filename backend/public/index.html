@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BLAST · every 3 minutes, one buy, burned</title>
+<meta name="description" content="Every 3 minutes 100% of the creator rewards are claimed, market-bought into the chart in ONE tx and burned. Supply only goes down. On pons, Robinhood Chain.">
+<meta property="og:title" content="BLAST · every 3 minutes, one buy, burned">
+<meta property="og:description" content="Every 3 minutes 100% of the creator rewards become one buy into the chart — and the tokens are burned. Supply only goes down.">
+<link rel="icon" href="/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon.png">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f4f4; --card: #ffffff; --tile: #ececec; --tile2: rgba(17,17,17,0.04);
+    --ink: #111111; --muted: #6f6f6f; --hair: rgba(17,17,17,0.08);
+    --blast: #91fa36; --blast-deep: #7de520; --blast-soft: #dfffbf; --blast-pale: #f0ffdc; --gold: #91fa36; --coal: #041004; --ember: #5fd80f;
+    --green: #2fd10f; --amber: #f5a524; --red: #e5484d; --blue: #4c7dff;
+    --r: 32px; --r2: 20px; --r3: 16px;
+    --shadow: 0 1px 2px rgba(17,17,17,0.04), 0 12px 40px rgba(17,17,17,0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, -apple-system, sans-serif; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .serif { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 20px; }
+
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(244,244,244,0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
+  .brand img { width: 36px; height: 36px; border-radius: 10px; }
+  .tabs { display: inline-flex; gap: 2px; background: var(--card); border-radius: 999px; padding: 5px; box-shadow: var(--shadow); }
+  .tabs a { padding: 9px 16px; border-radius: 999px; font-size: 15px; color: var(--muted); transition: background .15s, color .15s; }
+  .tabs a:hover { color: var(--ink); }
+  .tabs a.on { background: var(--ink); color: #fff; }
+  .right { display: flex; align-items: center; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: var(--card); font-size: 15px; font-weight: 500; box-shadow: var(--shadow); white-space: nowrap; cursor: pointer; border: 0; }
+  .pill.hot { background: var(--blast); color: var(--forest, #041004); }
+  .pill.hot:hover { background: var(--blast-deep); }
+  .pill.ghost { background: var(--tile2); box-shadow: none; }
+  .pill.small { padding: 7px 12px; font-size: 13px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(0,200,5,0.6); animation: ping 1.8s infinite; }
+  .dot.amber { background: var(--amber); animation: none; } .dot.red { background: var(--red); animation: none; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0,200,5,0.55); } 70% { box-shadow: 0 0 0 9px rgba(0,200,5,0); } 100% { box-shadow: 0 0 0 0 rgba(0,200,5,0); } }
+
+  .card { background: var(--card); border-radius: var(--r); padding: 28px; box-shadow: var(--shadow); }
+  .card h2 { margin: 0 0 6px; font-size: 26px; font-weight: 600; letter-spacing: -0.03em; }
+  .card .lead { margin: 0 0 22px; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 70ch; }
+  .tile { background: var(--tile); border-radius: var(--r3); padding: 16px 18px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: var(--tile); font-size: 13px; color: var(--ink); }
+  .chip.hot { background: var(--blast-soft); } .chip.dark { background: var(--ink); color: #fff; } .chip.amber { background: #fff1d6; }
+  .grid { display: grid; gap: 16px; }
+  .grid.two { grid-template-columns: 1fr 1fr; } .grid.three { grid-template-columns: repeat(3, 1fr); } .grid.four { grid-template-columns: repeat(4, 1fr); }
+  section { margin-top: 20px; scroll-margin-top: 90px; }
+
+  /* hero */
+  .hero { margin-top: 18px; border-radius: var(--r); padding: 44px 40px; background: var(--blast); box-shadow: var(--shadow); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; overflow: hidden; position: relative; }
+  .hero .art { display: grid; place-items: center; }
+  .hero .art img { width: min(100%, 500px); aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(1,13,1,0.35)); animation: float 6s ease-in-out infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg) scale(1); } 50% { transform: translateY(-14px) rotate(1deg) scale(1.03); } }
+  @media (prefers-reduced-motion: reduce) { .hero .art img { animation: none; } }
+  .hero .eyebrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+  .hero h1 { margin: 0; font-size: clamp(46px, 7vw, 92px); font-weight: 700; letter-spacing: -0.055em; line-height: 0.92; color: var(--ink); }
+  .hero h1 .serif { font-size: 1.04em; letter-spacing: -0.02em; color: var(--coal); }
+  .hero p { margin: 18px 0 0; font-size: 19px; color: #163a12; line-height: 1.5; max-width: 52ch; }
+  .hero p b { color: var(--coal); font-weight: 700; }
+  .hero .cta { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+  .hero .pill { font-size: 16px; padding: 13px 22px; }
+  .hero .pill.hot { background: var(--coal); color: var(--gold); }
+  .hero .pill.hot:hover { background: #0b2408; }
+  .hero .chip.dark { background: var(--coal); color: var(--gold); }
+  .hero .chip { background: rgba(4,16,4,0.12); color: var(--coal); }
+
+  /* stage */
+  .stage { margin-top: 16px; background: var(--coal); color: #fff; border-radius: var(--r); padding: 26px 30px; box-shadow: 0 24px 60px rgba(1,13,1,0.25); display: grid; grid-template-columns: auto 1.4fr 1fr; gap: 28px; align-items: center; }
+  .stage .lbl { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #8fa88a; display: flex; align-items: center; gap: 8px; }
+  .stage .clock { font-size: clamp(56px, 7vw, 96px); font-weight: 700; letter-spacing: -0.05em; line-height: 1; margin: 8px 0 0; color: var(--gold); }
+  .stage .clock.hot { color: #fff; animation: shake .5s infinite; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
+  .stage .sub { color: #bfd4ba; font-size: 14px; line-height: 1.5; }
+  .stage .sub b { color: #fff; font-weight: 600; }
+  .stage .track { height: 6px; background: rgba(255,255,255,0.12); border-radius: 3px; margin: 14px 0 0; overflow: hidden; }
+  .stage .track i { display: block; height: 100%; background: var(--blast); transition: width 1s linear; }
+  .stage .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stage .row div { background: rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; }
+  .stage .row b { display: block; font-size: 19px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; }
+  .stage .row small { color: #8fa88a; font-size: 12px; }
+
+  /* ticker */
+  .ticker { margin-top: 16px; background: var(--card); border-radius: 999px; padding: 10px 0; box-shadow: var(--shadow); overflow: hidden; white-space: nowrap; position: relative; }
+  .ticker::before, .ticker::after { content: ""; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 1; pointer-events: none; }
+  .ticker::before { left: 0; background: linear-gradient(90deg, #fff, transparent); } .ticker::after { right: 0; background: linear-gradient(-90deg, #fff, transparent); }
+  .ticker .lane { display: inline-flex; gap: 10px; padding-left: 20px; animation: slide 70s linear infinite; }
+  .ticker:hover .lane { animation-play-state: paused; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker .item { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--tile2); font-size: 13px; }
+  .ticker .item.buy { background: #e3f9dc; } .ticker .item.sell { background: #ffe4e4; } .ticker .item.blast { background: var(--coal); color: var(--gold); font-weight: 600; }
+  .ticker .item .mono { font-size: 12px; }
+
+  /* kpis */
+  .kpis { margin-top: 16px; }
+  .kpi { background: var(--card); border-radius: var(--r2); padding: 20px 22px; box-shadow: var(--shadow); }
+  .kpi b { display: block; font-size: 34px; font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; }
+  .kpi small { color: var(--muted); font-size: 13px; }
+  .kpi.hot { background: var(--blast); color: var(--ink); } .kpi.hot small { color: #2f5a24; }
+  .kpi.coal { background: var(--coal); color: var(--gold); } .kpi.coal small { color: #8fa88a; }
+
+  /* chart card */
+  .chart-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .big { font-size: clamp(38px, 5vw, 60px); font-weight: 700; letter-spacing: -0.045em; line-height: 1; }
+  .big .cur { color: var(--muted); font-weight: 500; font-size: 0.6em; margin-left: 6px; }
+  .under { color: var(--muted); font-size: 14px; margin-top: 8px; }
+  .under b { color: var(--ink); font-weight: 600; }
+  .ranges { display: inline-flex; gap: 2px; background: var(--tile); border-radius: 999px; padding: 4px; }
+  .ranges button { background: transparent; color: var(--muted); border: 0; border-radius: 999px; padding: 6px 12px; font-size: 13px; cursor: pointer; }
+  .ranges button.on { background: var(--ink); color: #fff; }
+  .fees { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; font-size: 14px; color: var(--muted); }
+  .note { margin-top: 12px; padding: 10px 14px; border-radius: var(--r3); background: #ffecec; color: var(--red); font-size: 14px; }
+  .paying { margin-top: 12px; padding: 14px 16px; border-radius: var(--r3); background: var(--blast-pale); font-size: 14px; }
+  .paying b { font-weight: 600; }
+  .paying .steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .paying .step { padding: 5px 11px; border-radius: 999px; background: rgba(17,17,17,0.06); font-size: 13px; }
+  .paying .step.on { background: var(--blast); color: var(--ink); } .paying .step.done { background: var(--coal); color: var(--gold); }
+  .chart { position: relative; height: min(56vh, 520px); min-height: 320px; cursor: grab; user-select: none; touch-action: none; margin-top: 18px; border-radius: var(--r2); background: #fafafa; overflow: hidden; }
+  .chart.drag { cursor: grabbing; }
+  .chart canvas { width: 100%; height: 100%; display: block; }
+  .chart .empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 15px; text-align: center; padding: 20px; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; padding: 8px 12px; font-size: 12.5px; border-radius: 10px; transform: translate(-50%, -130%); white-space: nowrap; display: none; z-index: 2; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); align-items: center; justify-content: space-between; }
+  .legend > div { display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+  .legend .b { background: var(--blast); } .legend .l { background: var(--ink); width: 14px; height: 2px; border-radius: 1px; }
+
+  /* how */
+  .how { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .how .tile { padding: 20px; }
+  .how .n { width: 34px; height: 34px; border-radius: 50%; background: var(--coal); color: var(--gold); display: grid; place-items: center; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+  .how b { display: block; font-size: 17px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .how p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .rules { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+  .rules ol { list-style: none; margin: 0; padding: 0; counter-reset: r; }
+  .rules ol li { counter-increment: r; display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--hair); align-items: start; }
+  .rules ol li:last-child { border-bottom: 0; }
+  .rules ol li::before { content: counter(r); width: 34px; height: 34px; border-radius: 50%; background: var(--blast); color: var(--coal); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  .rules ol li b { display: block; font-size: 16px; font-weight: 600; margin-bottom: 3px; letter-spacing: -0.01em; }
+  .rules ol li span { color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .rules .payout { background: var(--coal); color: #fff; border-radius: var(--r2); padding: 22px; }
+  .rules .payout h3 { color: #8fa88a; }
+  .rules .payout .line { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.14); font-size: 14px; }
+  .rules .payout .line:last-child { border-bottom: 0; }
+  .rules .payout .line b { color: var(--gold); font-weight: 600; text-align: right; white-space: nowrap; }
+  .rules .payout .ex { margin-top: 14px; font-size: 13px; color: #bfd4ba; line-height: 1.6; }
+  .rules .payout .ex b { color: #fff; font-weight: 600; }
+  .rules .payout .ex a { color: var(--gold); }
+
+  h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .lb { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .lb td { padding: 10px 0; border-bottom: 1px solid var(--hair); vertical-align: middle; }
+  .lb tr:last-child td { border-bottom: 0; }
+  .lb td.r { text-align: right; white-space: nowrap; }
+  .lb small { color: var(--muted); display: block; font-size: 12px; margin-top: 2px; }
+  .dry { color: var(--muted); } .paid { color: #2f7a12; font-weight: 600; }
+  .empty-note { color: var(--muted); font-size: 14px; padding: 8px 0; }
+
+  /* blasts */
+  .round { display: grid; grid-template-columns: 110px 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--hair); align-items: center; }
+  .round .n { font-weight: 600; } .round .n small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+  .round .who { color: var(--muted); font-size: 14px; line-height: 1.5; } .round .who span { color: var(--ink); }
+  .round .who a { color: #2f7a12; font-weight: 500; }
+  .round .amt { font-weight: 600; text-align: right; } .round .amt small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+  .burnbar { height: 14px; border-radius: 7px; background: var(--tile); overflow: hidden; margin-top: 12px; }
+  .burnbar i { display: block; height: 100%; background: linear-gradient(90deg, var(--ember), var(--blast)); min-width: 2px; transition: width .6s ease; }
+
+  footer { padding: 36px 0 64px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+  footer .wrap { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; }
+  footer .links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; padding: 32px 24px; }
+    .hero .art img { width: min(100%, 340px); }
+    .stage { grid-template-columns: 1fr; gap: 16px; }
+    .rules { grid-template-columns: 1fr; }
+    .grid.three, .grid.four, .how { grid-template-columns: 1fr 1fr; }
+    .tabs a { padding: 8px 12px; font-size: 14px; }
+  }
+  @media (max-width: 640px) {
+    .grid.two, .grid.three, .grid.four, .how { grid-template-columns: 1fr; }
+    .tabs { display: none; }
+    .card { padding: 20px; border-radius: 24px; }
+    .round { grid-template-columns: 90px 1fr; } .round .amt { grid-column: 2; text-align: left; }
+    footer .wrap { grid-template-columns: 1fr; }
+    .hide-sm { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="nav"><div class="wrap">
+  <a class="brand" href="#top"><img src="/icon.png" alt=""><span id="nav-brand">BLAST</span></a>
+  <nav class="tabs" id="tabs"><a href="#live" class="on">Live</a><a href="#how">How</a><a href="#rules">Rules</a><a href="#blasts">Blasts</a></nav>
+  <div class="right" id="links"><span class="pill ghost small hide-sm">pons · Robinhood Chain</span></div>
+</div></div>
+
+<div class="wrap" id="top">
+  <div class="hero" id="live">
+    <div>
+      <div class="eyebrow" id="eyebrow"><span class="chip dark" id="symbol">…</span><span class="chip" id="badge"><span class="dot amber"></span>…</span></div>
+      <h1>Every 3 min.<br>One buy.<br><span class="serif">Burned.</span></h1>
+      <p id="tagline">Every <b>3 minutes</b> the engine claims <b>100% of the creator rewards</b>, buys $BLAST with all of it in <b>one tx</b> and <b>burns</b> what it bought. No team cut. Supply only goes down.</p>
+      <div class="cta" id="cta"></div>
+    </div>
+    <div class="art"><img src="/logo.png" alt="BLAST"></div>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="lbl"><span class="dot" id="stage-dot"></span><span id="stage-lbl">next blast in</span></div>
+      <div class="clock mono" id="k-next">–:––</div>
+    </div>
+    <div>
+      <div class="sub" id="window">Creator rewards pile up between blasts. When the clock hits zero, all of it becomes one buy — and burns.</div>
+      <div class="track"><i id="window-bar" style="width:0%"></i></div>
+    </div>
+    <div class="row">
+      <div><b id="s-pot">–</b><small>pot for this blast</small></div>
+      <div><b id="s-last">–</b><small id="s-last-l">last blast</small></div>
+    </div>
+  </div>
+
+  <div class="ticker" id="ticker" style="display:none"><div class="lane" id="lane"></div></div>
+
+  <div class="grid four kpis">
+    <div class="kpi hot"><b id="k-burned">–</b><small id="k-burned-l">burned</small></div>
+    <div class="kpi coal"><b id="k-pct">–</b><small>of the supply gone forever</small></div>
+    <div class="kpi"><b id="k-sol">–</b><small id="k-sol-l">ETH blasted into the chart</small></div>
+    <div class="kpi"><b id="k-blasts">–</b><small>blasts so far</small></div>
+  </div>
+
+  <section class="card">
+    <div class="chart-head">
+      <div><div class="big" id="big">–</div><div class="under" id="under"></div></div>
+      <div class="ranges" id="ranges">
+        <button data-r="900">15M</button><button data-r="3600">1H</button><button data-r="21600">6H</button><button data-r="86400">24H</button><button data-r="0">All</button>
+      </div>
+    </div>
+    <div class="fees" id="fees"></div>
+    <div class="note" id="note" style="display:none"></div>
+    <div class="paying" id="paying" style="display:none"></div>
+    <div class="chart" id="chart">
+      <canvas id="cv"></canvas>
+      <div class="tip mono" id="tip"></div>
+      <div class="empty" id="empty" style="display:none">No trades yet. The chart draws itself as people buy.</div>
+    </div>
+    <div class="legend">
+      <div><span><i class="l"></i>price (on-chain trades)</span><span><i class="b"></i>blast — one buy, then burned</span></div>
+      <span>drag · scroll to zoom · hover a blast · live from the chain</span>
+    </div>
+    <div class="burnbar" title="share of the original supply burned"><i id="burnbar" style="width:0%"></i></div>
+    <div class="under" id="burn-under"></div>
+  </section>
+
+  <section class="card" id="how">
+    <h2>How it works</h2>
+    <p class="lead">No staking, no claim button, no team wallet. Trading fees become buys, buys become ashes.</p>
+    <div class="how">
+      <div class="tile"><div class="n">1</div><b>Fees pile up</b><p>Every trade on pons pays creator rewards. The engine never touches them between blasts — they sit on the curve and in the pons fee escrow, visible on-chain.</p></div>
+      <div class="tile"><div class="n">2</div><b>Every <span id="how-min">3</span> minutes</b><p>On a fixed clock, the engine claims <b>100%</b> of the rewards. Not 80%. Not "most". All of it, minus network fees.</p></div>
+      <div class="tile"><div class="n">3</div><b>One buy</b><p>All the ETH goes into <b>one single market buy</b> — on the bonding curve, or through Uniswap v4 once graduated. A green candle every 3 minutes, funded by the jeets.</p></div>
+      <div class="tile"><div class="n">4</div><b>Burned</b><p>The tokens it just bought are <b>burned</b> in the next tx with the token's own burn function. Total supply drops on Blockscout. Nobody can ever sell them.</p></div>
+    </div>
+  </section>
+
+  <section class="card" id="rules">
+    <h2>The rules</h2>
+    <p class="lead">Every number below is read live from the engine, and every blast leaves three transactions on Blockscout: claim, buy, burn.</p>
+    <div class="rules">
+      <ol id="rules-list"></ol>
+      <div class="payout">
+        <h3>The engine</h3>
+        <div id="rules-split"></div>
+        <div class="ex" id="rules-ex"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="blasts-card">
+    <h2 id="blasts">Blasts</h2>
+    <p class="lead" id="blasts-sub"></p>
+    <div id="blasts-list"></div>
+  </section>
+</div>
+
+<footer><div class="wrap"><div id="foot"></div><div class="links" id="foot-links"></div></div></footer>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const fmt = (n, d = 4) => (n === null || n === undefined || Number.isNaN(Number(n))) ? "–" : Number(n).toLocaleString(undefined, { maximumFractionDigits: d });
+const usd = (n) => (n === null || n === undefined || !isFinite(n)) ? null : "$" + Number(n).toLocaleString(undefined, { maximumFractionDigits: n >= 1000 ? 0 : 2 });
+const compact = (n) => (n === null || n === undefined || !isFinite(n)) ? "–" : Number(n).toLocaleString(undefined, { notation: "compact", maximumFractionDigits: 2 });
+const short = (a) => a ? a.slice(0, 4) + "…" + a.slice(-4) : "";
+const when = (ts) => new Date(ts * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+const whenSec = (ts) => new Date(ts * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const whenFull = (ts) => new Date(ts * 1000).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+const ago = (ts) => { const s = Math.max(0, nowS() - ts); return s < 60 ? `${s}s ago` : s < 3600 ? `${Math.floor(s / 60)}m ago` : `${Math.floor(s / 3600)}h ago`; };
+const nowS = () => Math.floor(Date.now() / 1000);
+let EXPLORER = "https://robinhoodchain.blockscout.com";
+let info = null, chart = null, pts = [], blastDots = [], view = { t0: 0, t1: 0, follow: true }, dragging = null, hovered = null, lastDone = null, trades = [];
+const DRY = () => !!(info && info.dryRun);
+const SYM = () => info?.symbol ? `$${info.symbol}` : "$BLAST";
+const solUsd = (v) => (info?.ethUsd ? ` (${usd(v * info.ethUsd)})` : "");
+const mcLabel = (p) => usd(p * (info?.supply0 || 1e9)) || "–";
+const priceLabel = (p) => "$" + (p >= 1 ? p.toFixed(4) : p.toPrecision(3));
+
+// ---------------------------------------------------------------- header
+async function loadInfo() {
+  const r = await fetch("/api/token"); if (!r.ok) return;
+  info = await r.json();
+  const brand = info.brand?.name || "BLAST";
+  $("nav-brand").textContent = brand;
+  const rules = info.rules || {};
+  const mins = Math.round((rules.intervalSec ?? 180) / 60);
+  $("how-min").textContent = mins;
+  if (!info.started) {
+    document.title = `${brand} · not started yet`;
+    $("symbol").textContent = "coin not launched yet"; $("badge").innerHTML = `<span class="dot amber"></span>waiting for the launch`;
+    $("stage-lbl").textContent = "first blast fires at launch"; $("k-next").textContent = "soon"; $("window").textContent = "The engine starts the moment the coin is live on pons.";
+    $("fees").innerHTML = `<span>Market data appears with the first trades.</span>`;
+    $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim 100% of the creator rewards, one buy, burn.`;
+    $("foot").textContent = `${brand} on pons, Robinhood Chain. 100% of creator rewards → one buy → burned.`;
+    renderRules(rules);
+    return;
+  }
+  document.title = `${brand} · ${SYM()}`;
+  EXPLORER = (info.links?.tx || EXPLORER + "/tx/").replace(/\/tx\/$/, "");
+  $("symbol").textContent = `${SYM()} · ${info.phase === 2 ? "Uniswap v4" : info.phase === 1 ? "graduating" : "bonding curve"}`;
+  $("links").innerHTML = `<span class="pill ghost small hide-sm">pons · Robinhood Chain</span><a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy on pons ↗</a>`;
+  $("cta").innerHTML = `<a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy on pons ↗</a><a class="pill" href="#blasts">See the burns</a><span class="pill ghost mono" id="ca" title="copy contract address">${short(info.token)} ⧉</span>`;
+  $("ca").onclick = () => { navigator.clipboard.writeText(info.token); $("ca").textContent = "copied"; setTimeout(() => $("ca").textContent = `${short(info.token)} ⧉`, 1200); };
+  const fl = [`<a class="pill small" href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>`, `<a class="pill small" href="${info.links.pons}" target="_blank" rel="noopener">pons</a>`, `<a class="pill small" href="${info.links.wallet}" target="_blank" rel="noopener">Engine wallet</a>`];
+  if (info.brand?.twitter) fl.push(`<a class="pill small" href="${info.brand.twitter}" target="_blank" rel="noopener">X</a>`);
+  if (info.brand?.telegram) fl.push(`<a class="pill small" href="${info.brand.telegram}" target="_blank" rel="noopener">Telegram</a>`);
+  $("foot-links").innerHTML = fl.join("");
+  const badge = $("badge");
+  if (!info.schedulerEnabled) badge.innerHTML = `<span class="dot red"></span>paused · blasts off`;
+  else if (DRY()) badge.innerHTML = `<span class="dot amber"></span>${info.mode === "watch" ? "watch mode · dry blasts" : "dry run · nothing moves"}`;
+  else badge.innerHTML = `<span class="dot"></span>live · real burns`;
+  $("tagline").innerHTML = `Every <b>${mins} ${mins === 1 ? "minute" : "minutes"}</b> the engine claims <b>100% of the creator rewards</b>, buys ${SYM()} with all of it in <b>one tx</b> and <b>burns</b> what it bought. No team cut. Supply only goes down.`;
+  renderRules(rules);
+  const burned = DRY() ? (info.dryTotals?.burned || 0) : info.burned;
+  const spentSol = DRY() ? (info.dryTotals?.spentEth || 0) : info.totalSpentEth;
+  const blastsRun = DRY() ? (info.dryTotals?.blasts || 0) : info.blastsRun;
+  $("k-burned").textContent = compact(burned); $("k-burned-l").textContent = `${SYM()} burned${DRY() ? " (dry, would-be)" : ""}`;
+  $("k-pct").textContent = `${((info.supply0 ? burned / info.supply0 : 0) * 100).toFixed(3)}%`;
+  $("k-sol").textContent = `${fmt(spentSol, 4)} ETH`; $("k-sol-l").textContent = `${info.ethUsd ? usd(spentSol * info.ethUsd) + " " : ""}blasted into the chart${DRY() ? " (dry)" : ""}`;
+  $("k-blasts").textContent = blastsRun;
+  const potAll = (info.pot?.escrowEth || 0) + (DRY() ? 0 : (info.pot?.spendableEth || 0));
+  $("s-pot").textContent = `${fmt(potAll, 4)} ETH`;
+  const lb = info.lastBlast;
+  if (lb && lb.status === "done") { $("s-last").textContent = `🔥 ${compact(lb.tokensBurned)}`; $("s-last-l").textContent = `last blast · ${fmt(lb.spentEth, 4)} ETH · ${ago(lb.t)}`; }
+  else if (lb) { $("s-last").textContent = lb.status === "skipped" ? "rolled over" : "failed"; $("s-last-l").textContent = `last blast · ${ago(lb.t)}`; }
+  else { $("s-last").textContent = "none yet"; $("s-last-l").textContent = "last blast"; }
+  const note = $("note");
+  if (info.lastNote?.msg && nowS() - info.lastNote.at < 3600) { note.style.display = "block"; note.textContent = `${whenFull(info.lastNote.at)} — ${info.lastNote.msg}`; } else note.style.display = "none";
+  const fees = [
+    `<span class="chip hot">Claimable rewards <b>&nbsp;${fmt(info.pot?.escrowEth, 5)} ETH</b>${solUsd(info.pot?.escrowEth || 0)}</span>`,
+    info.pot?.unsweptEth > 0 ? `<span class="chip">accruing ${info.phase === 2 ? "in the pool" : "on the curve"} <b>&nbsp;${fmt(info.pot.unsweptEth, 5)} ETH</b> · swept into the escrow</span>` : "",
+    info.pot?.spendableEth > 0.0001 ? `<span class="chip">in the wallet <b>&nbsp;${fmt(info.pot.spendableEth, 5)} ETH</b> · goes in the next blast</span>` : "",
+    info.pot?.estTokens > 0 ? `<span class="chip amber">next blast ≈ 🔥 ${compact(info.pot.estTokens)} ${SYM()}</span>` : "",
+    info.pot?.walletTokens > 0 ? `<span class="chip amber">${compact(info.pot.walletTokens)} ${SYM()} waiting to burn</span>` : "",
+    `<span class="chip">supply <b>&nbsp;${compact(info.supply)}</b> / ${compact(info.supply0)}</span>`,
+    `<span class="chip">${info.phase === 2 ? "graduated · buys via Uniswap v4" : info.phase === 1 ? "graduating · pool pending" : `bonding curve · ${(100 * (info.curveProgress || 0)).toFixed(1)}% to graduation`}</span>`,
+    info.syncing ? `<span class="chip amber">syncing the chain…</span>` : "",
+  ].filter(Boolean);
+  $("fees").innerHTML = fees.join("");
+  $("big").innerHTML = info.mcapUsd ? `${usd(info.mcapUsd)}<span class="cur">mcap</span>` : "–";
+  $("under").innerHTML = info.priceUsd ? `${priceLabel(info.priceUsd)} per ${SYM()} · real mcap after burns <b>${usd(info.realMcapUsd)}</b> · ETH ${usd(info.ethUsd)} · updated ${ago(info.marketUpdatedAt)}` : "";
+  $("burnbar").style.width = `${Math.min(100, (info.supply0 ? info.burned / info.supply0 : 0) * 100)}%`;
+  $("burn-under").innerHTML = `<b>${fmt(info.burned, 0)}</b> ${SYM()} burned on-chain (${((info.supply0 ? info.burned / info.supply0 : 0) * 100).toFixed(4)}% of ${compact(info.supply0)})${info.blastsRun ? ` across ${info.blastsRun} blasts` : ""}.`;
+  $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim, one buy, burn. Three transactions each, all on Blockscout.` + (DRY() ? " Blasts are dry right now — the engine records what it would do." : "");
+  $("foot").innerHTML = `${brand} on pons, Robinhood Chain. 100% of creator rewards → one buy → burned, every ${mins} ${mins === 1 ? "minute" : "minutes"}.<br>Engine wallet <span class="mono">${info.wallet}</span>. Nothing here is financial advice.`;
+  showProgress(info.progress);
+}
+
+function renderRules(rules) {
+  const mins = Math.round((rules.intervalSec ?? 180) / 60);
+  $("rules-list").innerHTML = [
+    ["A fixed clock", `A blast fires every ${mins} ${mins === 1 ? "minute" : "minutes"}, on the dot, from genesis. Nobody can time it, because everybody can.`],
+    ["100% of the creator rewards", `Everything pons pays the creator — curve fees before graduation, pool fees after — is claimed from the fee escrow into the engine wallet. The team keeps nothing.`],
+    ["One buy, all of it", `The full balance (minus ${rules.gasReserveEth} ETH kept for gas) becomes one market buy on the bonding curve, or through the Uniswap v4 Universal Router once graduated.`],
+    ["Burned, not held", `The tokens it bought are burned with the token's burn() — total supply drops on Blockscout, nothing sits in a wallet.`],
+    ["Dust rolls over", `A pot under ${rules.minBuyEth} ETH isn't worth a tx — it stays in the wallet and joins the next blast. A failed buy or burn is retried next blast.`],
+  ].map(([b, s]) => `<li><b>${b}</b><span>${s}</span></li>`).join("");
+  $("rules-split").innerHTML = [
+    ["Interval", `${mins} min`], ["Share of rewards blasted", "100%"], ["Team cut", "0%"],
+    ["Minimum blast", `${rules.minBuyEth} ETH`], ["Gas reserve", `${rules.gasReserveEth} ETH`], ["Slippage", `${rules.slippagePct}%`],
+  ].map(([k, v]) => `<div class="line"><span>${k}</span><b>${v}</b></div>`).join("");
+  $("rules-ex").innerHTML = info?.started
+    ? `Engine wallet: <a class="mono" href="${info.links.wallet}" target="_blank" rel="noopener">${short(info.wallet)}</a> — every claim, buy and burn signed from here. Check the supply on <a href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>.`
+    : `The engine wallet is the launch's creator fee recipient — every claim, buy and burn is signed from it and visible on Blockscout.`;
+}
+
+function showProgress(p) {
+  const el = $("paying");
+  if (!p || (p.status === "done" || p.status === "skipped" || p.status === "failed") && nowS() - p.at > 120) { el.style.display = "none"; return; }
+  el.style.display = "block";
+  const steps = ["claiming", "buying", "burning"];
+  const idx = steps.indexOf(p.status);
+  const cls = (s, i) => p.status === "done" || p.status === "skipped" ? "done" : i < idx ? "done" : i === idx ? "on" : "";
+  const head = p.status === "done" ? `<b>Blast #${p.blastId} done${p.dry ? " (dry)" : ""}.</b> ${p.note || ""}`
+    : p.status === "skipped" ? `<b>Blast #${p.blastId} rolled over.</b> ${p.note || ""}`
+    : p.status === "failed" ? `<b>Blast #${p.blastId} failed.</b> ${p.note || "retrying next blast"}`
+    : `<b>Blast #${p.blastId} firing${p.dry ? " (dry)" : ""}…</b> pot ${fmt(p.pot, 5)} ETH`;
+  const tx = (k, label) => p.txs?.[k] ? ` <a class="paid" href="${EXPLORER}/tx/${p.txs[k]}" target="_blank" rel="noopener">${label} tx ↗</a>` : "";
+  el.innerHTML = `${head}<div class="steps">${steps.map((s, i) => `<span class="step ${cls(s, i)}">${i + 1}. ${s}${s === "claiming" ? tx("claim", "") : s === "buying" ? tx("buy", "") : tx("burn", "")}</span>`).join("")}</div>`;
+  if ((p.status === "done" || p.status === "skipped") && p.blastId !== lastDone) { lastDone = p.blastId; loadBlasts(); loadChart(); }
+}
+
+// ---------------------------------------------------------------- countdown
+function tickCountdown() {
+  if (!info?.started || !info.nextBlastAt) return;
+  const iv = info.rules?.intervalSec || 180;
+  const left = Math.max(0, info.nextBlastAt - nowS());
+  const m = Math.floor(left / 60), s = left % 60;
+  const k = $("k-next");
+  k.textContent = `${m}:${String(s).padStart(2, "0")}`;
+  k.classList.toggle("hot", left <= 10);
+  $("window-bar").style.width = `${Math.min(100, ((iv - left) / iv) * 100)}%`;
+  if (left === 0) { $("stage-lbl").textContent = "blasting…"; } else $("stage-lbl").textContent = "next blast in";
+  if (left === 0 && !tickCountdown.reloading) { tickCountdown.reloading = true; setTimeout(async () => { await loadInfo(); tickCountdown.reloading = false; }, 4000); }
+}
+
+// ---------------------------------------------------------------- ticker
+async function loadTrades() {
+  if (!info?.started) return;
+  try { const r = await fetch("/api/trades"); if (r.ok) trades = await r.json(); } catch {}
+  renderTicker();
+}
+function renderTicker() {
+  const items = [];
+  const blasts = (chart?.blasts || []).slice(-8).reverse();
+  const mixed = [...blasts.map((b) => ({ kind: "blast", t: b.t, b })), ...trades.slice(0, 30).map((t) => ({ kind: t.side, t: t.t, tr: t }))].sort((a, b) => b.t - a.t).slice(0, 30);
+  for (const m of mixed) {
+    if (m.kind === "blast") items.push(`<span class="item blast">💥 blast #${m.b.id} · ${fmt(m.b.spentEth, 4)} ETH → 🔥 ${compact(m.b.tokens)}${m.b.dry ? " (dry)" : ""} · ${ago(m.t)}</span>`);
+    else items.push(`<span class="item ${m.kind}">${m.tr.engine ? "💥 engine buy" : m.kind === "buy" ? "🟢 buy" : "🔴 sell"} <span class="mono">${short(m.tr.wallet)}</span> ${fmt(m.tr.eth, 4)} ETH · ${ago(m.t)}</span>`);
+  }
+  const t = $("ticker");
+  if (!items.length) { t.style.display = "none"; return; }
+  t.style.display = "block";
+  $("lane").innerHTML = items.join("") + items.join("");
+}
+
+// ---------------------------------------------------------------- chart
+async function loadChart() {
+  if (!info?.started) return;
+  const r = await fetch("/api/chart"); if (!r.ok) return;
+  chart = await r.json();
+  pts = chart.points.filter((p) => p.c > 0).map((p) => ({ t: p.t, p: p.c }));
+  blastDots = chart.blasts.map((b) => { const near = nearest(b.t); return { ...b, p: near ? near.p : chart.priceUsd }; });
+  if (view.t1 === 0) setRange(null);
+  else if (view.follow) { const span = view.t1 - view.t0; view.t1 = nowT(); view.t0 = view.t1 - span; }
+  renderTicker();
+  draw();
+}
+function nearest(t) { let best = null, bd = Infinity; for (const p of pts) { const d = Math.abs(p.t - t); if (d < bd) { bd = d; best = p; } } return best; }
+const nowT = () => Math.max(pts.length ? pts[pts.length - 1].t : 0, nowS());
+function setRange(sec) {
+  const first = pts.length ? pts[0].t : nowT() - 3600;
+  const r = sec === null ? (nowT() - first > 86400 * 1.5 ? 86400 : 0) : sec;
+  view.t1 = nowT(); view.t0 = r ? Math.max(first, view.t1 - r) : first; view.follow = true;
+    document.querySelectorAll("#ranges button").forEach((b) => b.classList.toggle("on", Number(b.dataset.r) === r));
+  draw();
+}
+document.querySelectorAll("#ranges button").forEach((b) => b.addEventListener("click", () => setRange(Number(b.dataset.r))));
+function visible() {
+  const inView = pts.filter((p) => p.t >= view.t0 && p.t <= view.t1);
+  if (view.follow && chart.priceUsd) {
+    const lastBefore = pts.filter((p) => p.t < view.t0).pop();
+    if (!inView.length && lastBefore) inView.push({ t: view.t0, p: lastBefore.p });
+    inView.push({ t: view.t1, p: chart.priceUsd, live: true });
+  }
+  const dots = blastDots.filter((b) => b.t >= view.t0 && b.t <= view.t1);
+  return { line: inView, dots };
+}
+function draw() {
+  const cv = $("cv"), box = $("chart");
+  const dpr = window.devicePixelRatio || 1;
+  const W = box.clientWidth, H = box.clientHeight;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  if (!chart || pts.length < 2) { $("empty").style.display = "grid"; return; }
+  const { line, dots } = visible();
+  if (line.length < 2) { $("empty").style.display = "grid"; $("empty").textContent = "No trades in this range — drag or pick a wider one."; return; }
+  $("empty").style.display = "none";
+  const cur = chart.priceUsd;
+  const padL = 18, padR = 120, padT = 26, padB = 36;
+  let pmin = Infinity, pmax = -Infinity;
+  for (const p of line) { if (p.p < pmin) pmin = p.p; if (p.p > pmax) pmax = p.p; }
+  const pad = (pmax - pmin) * 0.14 || pmax * 0.1 || 1;
+  pmin = Math.max(0, pmin - pad); pmax += pad;
+  const X = (t) => padL + ((t - view.t0) / Math.max(1, view.t1 - view.t0)) * (W - padL - padR);
+  const Y = (p) => padT + (1 - (p - pmin) / (pmax - pmin)) * (H - padT - padB);
+  ctx.font = "12px JetBrains Mono, monospace"; ctx.textBaseline = "middle"; ctx.textAlign = "left"; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const p = pmin + ((pmax - pmin) * i) / 4;
+    ctx.strokeStyle = "rgba(17,17,17,0.06)"; ctx.beginPath(); ctx.moveTo(padL, Y(p)); ctx.lineTo(W - padR, Y(p)); ctx.stroke();
+    ctx.fillStyle = "#8a8a8a"; ctx.fillText(mcLabel(p), W - padR + 10, Y(p));
+  }
+  for (const b of dots) {
+    ctx.strokeStyle = b.dry ? "rgba(95,216,15,0.35)" : "rgba(95,216,15,0.7)"; ctx.setLineDash([2, 4]);
+    ctx.beginPath(); ctx.moveTo(X(b.t), padT - 8); ctx.lineTo(X(b.t), H - padB); ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.beginPath(); line.forEach((p, i) => (i ? ctx.lineTo(X(p.t), Y(p.p)) : ctx.moveTo(X(p.t), Y(p.p))));
+  ctx.lineTo(X(line[line.length - 1].t), H - padB); ctx.lineTo(X(line[0].t), H - padB); ctx.closePath();
+  const grad = ctx.createLinearGradient(0, padT, 0, H - padB); grad.addColorStop(0, "rgba(145,250,54,0.28)"); grad.addColorStop(1, "rgba(145,250,54,0)");
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.lineWidth = 2.2; ctx.lineJoin = "round"; ctx.lineCap = "round"; ctx.strokeStyle = "#111";
+  ctx.beginPath(); line.forEach((p, i) => (i ? ctx.lineTo(X(p.t), Y(p.p)) : ctx.moveTo(X(p.t), Y(p.p)))); ctx.stroke();
+  const tail = line[line.length - 1];
+  if (tail && tail.live) { ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(X(tail.t), Y(tail.p), 4, 0, Math.PI * 2); ctx.fill(); }
+  for (const b of dots) {
+    const rr = 7;
+    ctx.fillStyle = b.dry ? "#c9ffa1" : "#041004"; ctx.strokeStyle = "#91fa36"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(X(b.t), Y(b.p), rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#fff"; ctx.font = "600 9px Inter, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("🔥", X(b.t), Y(b.p) + 0.5);
+  }
+  if (cur && Y(cur) > padT && Y(cur) < H - padB) {
+    ctx.strokeStyle = "rgba(17,17,17,0.4)"; ctx.lineWidth = 1; ctx.setLineDash([3, 5]);
+    ctx.beginPath(); ctx.moveTo(padL, Y(cur)); ctx.lineTo(W - padR, Y(cur)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = "#111"; ctx.font = "600 12px JetBrains Mono, monospace"; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    ctx.fillText("now · " + mcLabel(cur), W - padR + 10, Y(cur) - 13);
+  }
+  ctx.fillStyle = "#8a8a8a"; ctx.font = "12px JetBrains Mono, monospace"; ctx.textAlign = "center"; ctx.textBaseline = "top";
+  const n = Math.max(2, Math.min(7, Math.floor(W / 150)));
+  const spanS = view.t1 - view.t0;
+  for (let i = 0; i <= n; i++) { const t = view.t0 + (spanS * i) / n; ctx.fillText(spanS <= 1800 ? whenSec(t) : spanS <= 86400 ? when(t) : whenFull(t), X(t), H - padB + 14); }
+  box.onmousemove = (e) => {
+    if (dragging) return;
+    const rect = cv.getBoundingClientRect(); const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    let best = null, bd = 16;
+    for (const b of dots) { const d = Math.hypot(X(b.t) - mx, Y(b.p) - my); if (d < bd) { bd = d; best = b; } }
+    const tip = $("tip"); hovered = best;
+    if (best) {
+      tip.textContent = `💥 blast #${best.id} · ${fmt(best.spentEth, 5)} ETH → 🔥 ${fmt(best.tokens, 0)} ${SYM()} burned${best.dry ? " (dry)" : ""} · ${whenFull(best.t)} · click for tx`;
+      tip.style.left = Math.max(140, Math.min(W - 140, X(best.t))) + "px"; tip.style.top = Y(best.p) + "px"; tip.style.display = "block"; return;
+    }
+    let lp = line[0], ld = Infinity;
+    for (const p of line) { const d = Math.abs(X(p.t) - mx); if (d < ld) { ld = d; lp = p; } }
+    tip.textContent = `${whenFull(lp.t)} · ${mcLabel(lp.p)} mc · ${priceLabel(lp.p)}`;
+    tip.style.left = Math.max(80, Math.min(W - 80, X(lp.t))) + "px"; tip.style.top = Y(lp.p) + "px"; tip.style.display = "block";
+  };
+  box.onmouseleave = () => { $("tip").style.display = "none"; hovered = null; };
+}
+(() => {
+  const box = $("chart");
+  const secPerPx = () => (view.t1 - view.t0) / Math.max(1, box.clientWidth - 138);
+  const clampView = () => {
+    const first = pts.length ? pts[0].t : 0, last = nowT();
+    const span = Math.max(60, Math.min(view.t1 - view.t0, last - first + 3600));
+    if (view.t1 > last) view.t1 = last;
+    if (view.t1 - span < first - 3600) view.t1 = first - 3600 + span;
+    view.t0 = view.t1 - span; view.follow = view.t1 >= last - 1;
+  };
+  let downAt = 0;
+  const start = (x) => { downAt = x; dragging = { x, t0: view.t0, t1: view.t1 }; box.classList.add("drag"); $("tip").style.display = "none"; };
+  const move = (x) => { if (!dragging) return; const dt = (dragging.x - x) * secPerPx(); view.t0 = dragging.t0 + dt; view.t1 = dragging.t1 + dt; clampView(); document.querySelectorAll("#ranges button").forEach((b) => b.classList.remove("on")); draw(); };
+  const end = (x) => { const moved = typeof x === "number" ? Math.abs(x - downAt) : 0; dragging = null; box.classList.remove("drag"); if (moved < 4 && hovered) { const el = document.querySelector(`[data-blast="${hovered.id}"]`); if (el) el.scrollIntoView({ behavior: "smooth", block: "center" }); } };
+  box.addEventListener("mousedown", (e) => start(e.clientX));
+  window.addEventListener("mousemove", (e) => move(e.clientX));
+  window.addEventListener("mouseup", (e) => end(e.clientX));
+  box.addEventListener("touchstart", (e) => start(e.touches[0].clientX), { passive: true });
+  box.addEventListener("touchmove", (e) => move(e.touches[0].clientX), { passive: true });
+  box.addEventListener("touchend", () => end());
+  box.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const rect = box.getBoundingClientRect(); const fx = Math.max(0, Math.min(1, (e.clientX - rect.left - 18) / Math.max(1, rect.width - 138)));
+    const anchor = view.t0 + fx * (view.t1 - view.t0);
+    const k = e.deltaY > 0 ? 1.18 : 1 / 1.18;
+    view.t0 = anchor - (anchor - view.t0) * k; view.t1 = anchor + (view.t1 - anchor) * k;
+    clampView(); document.querySelectorAll("#ranges button").forEach((b) => b.classList.remove("on")); draw();
+  }, { passive: false });
+})();
+
+// ---------------------------------------------------------------- blasts
+async function loadBlasts() {
+  if (!info?.started) return;
+  const r = await fetch("/api/blasts"); if (!r.ok) return;
+  const rows = await r.json();
+  const el = $("blasts-list");
+  if (!rows.length) { el.innerHTML = `<p class="empty-note">No blasts yet. The first one fires ${Math.round((info.rules.intervalSec || 180) / 60)} minutes after genesis.</p>`; return; }
+  const tx = (sig, label) => sig ? `<a href="${EXPLORER}/tx/${sig}" target="_blank" rel="noopener">${label} ↗</a>` : "";
+  el.innerHTML = rows.map((b) => {
+    const links = [tx(b.claimTx, "claim"), tx(b.buyTx, "buy"), tx(b.burnTx, "burn")].filter(Boolean).join(" · ");
+    const who = b.status === "done"
+      ? `${b.dry ? "would claim" : "claimed"} <span>${fmt(b.claimedEth, 5)} ETH</span>, one buy of <span>${fmt(b.spentEth, 5)} ETH</span>${b.venue ? ` on ${b.venue}` : ""}, burned <span>${fmt(b.tokensBurned, 0)} ${SYM()}</span>${b.supplyAfter ? ` · supply now ${compact(b.supplyAfter)}` : ""}${links ? `<br>${links}` : ""}`
+      : b.status === "skipped" ? `pot ${fmt(b.potEth, 5)} ETH — under the minimum, rolled into the next blast`
+      : `failed — ${b.note || "retrying next blast"}${links ? `<br>${links}` : ""}`;
+    return `<div class="round" data-blast="${b.id}">
+      <div class="n">Blast #${b.id}<small>${whenFull(b.t)}</small></div>
+      <div class="who">${who}${b.dry ? ` <span class="dry">· dry run</span>` : ""}</div>
+      <div class="amt ${b.status === "done" && !b.dry ? "paid" : "dry"}">${b.status === "done" ? `🔥 ${compact(b.tokensBurned)}` : b.status === "skipped" ? "rolled" : "failed"}<small>${b.status === "done" && b.ethUsd ? usd(b.spentEth * b.ethUsd) : ""}</small></div>
+    </div>`;
+  }).join("");
+}
+
+// ---------------------------------------------------------------- nav + boot
+const sections = ["live", "how", "rules", "blasts-card"];
+window.addEventListener("scroll", () => {
+  let cur = "live";
+  for (const id of sections) { const el = $(id); if (el && el.getBoundingClientRect().top < 140) cur = id; }
+  document.querySelectorAll("#tabs a").forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + (cur === "blasts-card" ? "blasts" : cur)));
+}, { passive: true });
+(async () => {
+  await loadInfo(); await loadChart(); await loadTrades(); await loadBlasts();
+  setInterval(tickCountdown, 1000); tickCountdown();
+  setInterval(loadInfo, 5000);
+  setInterval(loadChart, 15000);
+  setInterval(loadTrades, 10000);
+  setInterval(loadBlasts, 30000);
+  window.addEventListener("resize", draw);
+})();
+</script>
+</body>
+</html>

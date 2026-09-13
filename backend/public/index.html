@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BLAST · every 3 minutes, one buy, burned</title>
-<meta name="description" content="Every 3 minutes 100% of the creator rewards are claimed, market-bought into the chart in ONE tx and burned. Supply only goes down. On pons, Robinhood Chain.">
-<meta property="og:title" content="BLAST · every 3 minutes, one buy, burned">
-<meta property="og:description" content="Every 3 minutes 100% of the creator rewards become one buy into the chart — and the tokens are burned. Supply only goes down.">
+<title>BLAST · a new blast into the chart every 3 min</title>
+<meta name="description" content="$BLAST. Every 3 minutes all the creator fees get blasted into the chart in one buy, and the tokens get burned. Every blast makes $BLAST scarcer. On pons, Robinhood Chain.">
+<meta property="og:title" content="BLAST · a new blast into the chart every 3 min">
+<meta property="og:description" content="Every 3 minutes all the $BLAST creator fees become one buy into the chart. Then the tokens are burned. Every blast = less $BLAST.">
 <link rel="icon" href="/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/icon.png">
 <meta property="og:image" content="/og.png">
@@ -210,8 +210,8 @@
   <div class="hero" id="live">
     <div>
       <div class="eyebrow" id="eyebrow"><span class="chip dark" id="symbol">…</span><span class="chip" id="badge"><span class="dot amber"></span>…</span></div>
-      <h1>Every 3 min.<br>One buy.<br><span class="serif">Burned.</span></h1>
-      <p id="tagline">Every <b>3 minutes</b> the engine claims <b>100% of the creator rewards</b>, buys $BLAST with all of it in <b>one tx</b> and <b>burns</b> what it bought. No team cut. Supply only goes down.</p>
+      <h1>A new blast.<br>Every 3 min.<br><span class="serif">Into the chart.</span></h1>
+      <p id="tagline">All the creator fees of <b>$BLAST</b> get blasted into the chart <b>every 3 minutes</b>. One buy. Then the tokens are <b>burned</b>. No team cut. Every blast = less $BLAST.</p>
       <div class="cta" id="cta"></div>
     </div>
     <div class="art"><img src="/logo.png" alt="BLAST"></div>
@@ -223,11 +223,11 @@
       <div class="clock mono" id="k-next">–:––</div>
     </div>
     <div>
-      <div class="sub" id="window">Creator rewards pile up between blasts. When the clock hits zero, all of it becomes one buy — and burns.</div>
+      <div class="sub" id="window">Fees stack up. The clock hits zero. <b>BLAST.</b> One buy into the chart, then burned.</div>
       <div class="track"><i id="window-bar" style="width:0%"></i></div>
     </div>
     <div class="row">
-      <div><b id="s-pot">–</b><small>pot for this blast</small></div>
+      <div><b id="s-pot">–</b><small>fuel for the next blast</small></div>
       <div><b id="s-last">–</b><small id="s-last-l">last blast</small></div>
     </div>
   </div>
@@ -236,7 +236,7 @@
 
   <div class="grid four kpis">
     <div class="kpi hot"><b id="k-burned">–</b><small id="k-burned-l">burned</small></div>
-    <div class="kpi coal"><b id="k-pct">–</b><small>of the supply gone forever</small></div>
+    <div class="kpi coal"><b id="k-pct">–</b><small>of all $BLAST gone forever</small></div>
     <div class="kpi"><b id="k-sol">–</b><small id="k-sol-l">ETH blasted into the chart</small></div>
     <div class="kpi"><b id="k-blasts">–</b><small>blasts so far</small></div>
   </div>
@@ -254,10 +254,10 @@
     <div class="chart" id="chart">
       <canvas id="cv"></canvas>
       <div class="tip mono" id="tip"></div>
-      <div class="empty" id="empty" style="display:none">No trades yet. The chart draws itself as people buy.</div>
+      <div class="empty" id="empty" style="display:none">No trades yet. The chart starts with the first buy.</div>
     </div>
     <div class="legend">
-      <div><span><i class="l"></i>price (on-chain trades)</span><span><i class="b"></i>blast — one buy, then burned</span></div>
+      <div><span><i class="l"></i>$BLAST price</span><span><i class="b"></i>a blast</span></div>
       <span>drag · scroll to zoom · hover a blast · live from the chain</span>
     </div>
     <div class="burnbar" title="share of the original supply burned"><i id="burnbar" style="width:0%"></i></div>
@@ -265,19 +265,19 @@
   </section>
 
   <section class="card" id="how">
-    <h2>How it works</h2>
-    <p class="lead">No staking, no claim button, no team wallet. Trading fees become buys, buys become ashes.</p>
+    <h2>How BLAST works</h2>
+    <p class="lead">No staking. No claiming. No team wallet. Fees become blasts. Blasts become burns.</p>
     <div class="how">
-      <div class="tile"><div class="n">1</div><b>Fees pile up</b><p>Every trade on pons pays creator rewards. The engine never touches them between blasts — they sit on the curve and in the pons fee escrow, visible on-chain.</p></div>
-      <div class="tile"><div class="n">2</div><b>Every <span id="how-min">3</span> minutes</b><p>On a fixed clock, the engine claims <b>100%</b> of the rewards. Not 80%. Not "most". All of it, minus network fees.</p></div>
-      <div class="tile"><div class="n">3</div><b>One buy</b><p>All the ETH goes into <b>one single market buy</b> — on the bonding curve, or through Uniswap v4 once graduated. A green candle every 3 minutes, funded by the jeets.</p></div>
-      <div class="tile"><div class="n">4</div><b>Burned</b><p>The tokens it just bought are <b>burned</b> in the next tx with the token's own burn function. Total supply drops on Blockscout. Nobody can ever sell them.</p></div>
+      <div class="tile"><div class="n">1</div><b>Fees stack up</b><p>Every trade of $BLAST pays fees to the creator. Nobody touches them. They pile up until the next blast.</p></div>
+      <div class="tile"><div class="n">2</div><b>Every <span id="how-min">3</span> min</b><p>The clock hits zero. <b>100%</b> of the fees get claimed. Not most of it. All of it.</p></div>
+      <div class="tile"><div class="n">3</div><b>BLAST</b><p>All the ETH goes into <b>one buy of $BLAST</b>. One green candle into the chart, on the clock, every 3 minutes.</p></div>
+      <div class="tile"><div class="n">4</div><b>Burned</b><p>The $BLAST the blast just bought is <b>burned</b> right away. Supply drops. Nobody can ever sell it.</p></div>
     </div>
   </section>
 
   <section class="card" id="rules">
-    <h2>The rules</h2>
-    <p class="lead">Every number below is read live from the engine, and every blast leaves three transactions on Blockscout: claim, buy, burn.</p>
+    <h2>The rules of BLAST</h2>
+    <p class="lead">Simple. Every number is live from the engine. Every blast leaves three transactions on Blockscout: claim, blast, burn.</p>
     <div class="rules">
       <ol id="rules-list"></ol>
       <div class="payout">
@@ -328,18 +328,18 @@ async function loadInfo() {
   if (!info.started) {
     document.title = `${brand} · not started yet`;
     $("symbol").textContent = "coin not launched yet"; $("badge").innerHTML = `<span class="dot amber"></span>waiting for the launch`;
-    $("stage-lbl").textContent = "first blast fires at launch"; $("k-next").textContent = "soon"; $("window").textContent = "The engine starts the moment the coin is live on pons.";
+    $("stage-lbl").textContent = "first blast at launch"; $("k-next").textContent = "soon"; $("window").textContent = "Blasts start the moment $BLAST is live on pons.";
     $("fees").innerHTML = `<span>Market data appears with the first trades.</span>`;
-    $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim 100% of the creator rewards, one buy, burn.`;
-    $("foot").textContent = `${brand} on pons, Robinhood Chain. 100% of creator rewards → one buy → burned.`;
+    $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim the fees, blast them into the chart, burn what came back.`;
+    $("foot").textContent = `$${brand} on pons, Robinhood Chain. A new blast into the chart every 3 minutes.`;
     renderRules(rules);
     return;
   }
   document.title = `${brand} · ${SYM()}`;
   EXPLORER = (info.links?.tx || EXPLORER + "/tx/").replace(/\/tx\/$/, "");
   $("symbol").textContent = `${SYM()} · ${info.phase === 2 ? "Uniswap v4" : info.phase === 1 ? "graduating" : "bonding curve"}`;
-  $("links").innerHTML = `<span class="pill ghost small hide-sm">pons · Robinhood Chain</span><a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy on pons ↗</a>`;
-  $("cta").innerHTML = `<a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy on pons ↗</a><a class="pill" href="#blasts">See the burns</a><span class="pill ghost mono" id="ca" title="copy contract address">${short(info.token)} ⧉</span>`;
+  $("links").innerHTML = `<span class="pill ghost small hide-sm">pons · Robinhood Chain</span><a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy $BLAST ↗</a>`;
+  $("cta").innerHTML = `<a class="pill hot" href="${info.links.pons}" target="_blank" rel="noopener">Buy ${SYM()} ↗</a><a class="pill" href="#blasts">See the blasts</a><span class="pill ghost mono" id="ca" title="copy contract address">${short(info.token)} ⧉</span>`;
   $("ca").onclick = () => { navigator.clipboard.writeText(info.token); $("ca").textContent = "copied"; setTimeout(() => $("ca").textContent = `${short(info.token)} ⧉`, 1200); };
   const fl = [`<a class="pill small" href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>`, `<a class="pill small" href="${info.links.pons}" target="_blank" rel="noopener">pons</a>`, `<a class="pill small" href="${info.links.wallet}" target="_blank" rel="noopener">Engine wallet</a>`];
   if (info.brand?.twitter) fl.push(`<a class="pill small" href="${info.brand.twitter}" target="_blank" rel="noopener">X</a>`);
@@ -349,12 +349,12 @@ async function loadInfo() {
   if (!info.schedulerEnabled) badge.innerHTML = `<span class="dot red"></span>paused · blasts off`;
   else if (DRY()) badge.innerHTML = `<span class="dot amber"></span>${info.mode === "watch" ? "watch mode · dry blasts" : "dry run · nothing moves"}`;
   else badge.innerHTML = `<span class="dot"></span>live · real burns`;
-  $("tagline").innerHTML = `Every <b>${mins} ${mins === 1 ? "minute" : "minutes"}</b> the engine claims <b>100% of the creator rewards</b>, buys ${SYM()} with all of it in <b>one tx</b> and <b>burns</b> what it bought. No team cut. Supply only goes down.`;
+  $("tagline").innerHTML = `All the creator fees of <b>${SYM()}</b> get blasted into the chart <b>every ${mins} ${mins === 1 ? "minute" : "minutes"}</b>. One buy. Then the tokens are <b>burned</b>. No team cut. Every blast = less ${SYM()}.`;
   renderRules(rules);
   const burned = DRY() ? (info.dryTotals?.burned || 0) : info.burned;
   const spentSol = DRY() ? (info.dryTotals?.spentEth || 0) : info.totalSpentEth;
   const blastsRun = DRY() ? (info.dryTotals?.blasts || 0) : info.blastsRun;
-  $("k-burned").textContent = compact(burned); $("k-burned-l").textContent = `${SYM()} burned${DRY() ? " (dry, would-be)" : ""}`;
+  $("k-burned").textContent = compact(burned); $("k-burned-l").textContent = `${SYM()} burned by blasts${DRY() ? " (dry, would-be)" : ""}`;
   $("k-pct").textContent = `${((info.supply0 ? burned / info.supply0 : 0) * 100).toFixed(3)}%`;
   $("k-sol").textContent = `${fmt(spentSol, 4)} ETH`; $("k-sol-l").textContent = `${info.ethUsd ? usd(spentSol * info.ethUsd) + " " : ""}blasted into the chart${DRY() ? " (dry)" : ""}`;
   $("k-blasts").textContent = blastsRun;
@@ -381,27 +381,27 @@ async function loadInfo() {
   $("under").innerHTML = info.priceUsd ? `${priceLabel(info.priceUsd)} per ${SYM()} · real mcap after burns <b>${usd(info.realMcapUsd)}</b> · ETH ${usd(info.ethUsd)} · updated ${ago(info.marketUpdatedAt)}` : "";
   $("burnbar").style.width = `${Math.min(100, (info.supply0 ? info.burned / info.supply0 : 0) * 100)}%`;
   $("burn-under").innerHTML = `<b>${fmt(info.burned, 0)}</b> ${SYM()} burned on-chain (${((info.supply0 ? info.burned / info.supply0 : 0) * 100).toFixed(4)}% of ${compact(info.supply0)})${info.blastsRun ? ` across ${info.blastsRun} blasts` : ""}.`;
-  $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim, one buy, burn. Three transactions each, all on Blockscout.` + (DRY() ? " Blasts are dry right now — the engine records what it would do." : "");
-  $("foot").innerHTML = `${brand} on pons, Robinhood Chain. 100% of creator rewards → one buy → burned, every ${mins} ${mins === 1 ? "minute" : "minutes"}.<br>Engine wallet <span class="mono">${info.wallet}</span>. Nothing here is financial advice.`;
+  $("blasts-sub").textContent = `Every ${mins} ${mins === 1 ? "minute" : "minutes"}: claim, blast, burn. Three transactions each, all on Blockscout.` + (DRY() ? " Blasts are dry right now — the engine records what it would do." : "");
+  $("foot").innerHTML = `${SYM()} on pons, Robinhood Chain. A new blast into the chart every ${mins} ${mins === 1 ? "minute" : "minutes"}.<br>Engine wallet <span class="mono">${info.wallet}</span>. Nothing here is financial advice.`;
   showProgress(info.progress);
 }
 
 function renderRules(rules) {
   const mins = Math.round((rules.intervalSec ?? 180) / 60);
   $("rules-list").innerHTML = [
-    ["A fixed clock", `A blast fires every ${mins} ${mins === 1 ? "minute" : "minutes"}, on the dot, from genesis. Nobody can time it, because everybody can.`],
-    ["100% of the creator rewards", `Everything pons pays the creator — curve fees before graduation, pool fees after — is claimed from the fee escrow into the engine wallet. The team keeps nothing.`],
-    ["One buy, all of it", `The full balance (minus ${rules.gasReserveEth} ETH kept for gas) becomes one market buy on the bonding curve, or through the Uniswap v4 Universal Router once graduated.`],
-    ["Burned, not held", `The tokens it bought are burned with the token's burn() — total supply drops on Blockscout, nothing sits in a wallet.`],
-    ["Dust rolls over", `A pot under ${rules.minBuyEth} ETH isn't worth a tx — it stays in the wallet and joins the next blast. A failed buy or burn is retried next blast.`],
+    ["On the clock", `A blast fires every ${mins} ${mins === 1 ? "minute" : "minutes"}. Always. Nobody can time it, everybody can see it coming.`],
+    ["100% of the fees", `Everything pons pays the creator of ${SYM()} goes into the blast. Curve fees before graduation, pool fees after. The team keeps nothing.`],
+    ["One buy", `All the ETH (minus ${rules.gasReserveEth} ETH for gas) becomes one buy of ${SYM()}. On the curve, or on Uniswap v4 once graduated.`],
+    ["Burned", `What the blast bought is burned with burn(). Supply goes down on Blockscout. Nothing sits in a wallet.`],
+    ["Small fees wait", `Under ${rules.minBuyEth} ETH? It waits and joins the next blast. A failed blast retries on the next one.`],
   ].map(([b, s]) => `<li><b>${b}</b><span>${s}</span></li>`).join("");
   $("rules-split").innerHTML = [
-    ["Interval", `${mins} min`], ["Share of rewards blasted", "100%"], ["Team cut", "0%"],
+    ["Blast every", `${mins} min`], ["Fees blasted", "100%"], ["Team cut", "0%"],
     ["Minimum blast", `${rules.minBuyEth} ETH`], ["Gas reserve", `${rules.gasReserveEth} ETH`], ["Slippage", `${rules.slippagePct}%`],
   ].map(([k, v]) => `<div class="line"><span>${k}</span><b>${v}</b></div>`).join("");
   $("rules-ex").innerHTML = info?.started
-    ? `Engine wallet: <a class="mono" href="${info.links.wallet}" target="_blank" rel="noopener">${short(info.wallet)}</a> — every claim, buy and burn signed from here. Check the supply on <a href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>.`
-    : `The engine wallet is the launch's creator fee recipient — every claim, buy and burn is signed from it and visible on Blockscout.`;
+    ? `Engine wallet: <a class="mono" href="${info.links.wallet}" target="_blank" rel="noopener">${short(info.wallet)}</a> — every claim, blast and burn signed from here. Check the supply on <a href="${info.links.explorer}" target="_blank" rel="noopener">Blockscout</a>.`
+    : `The engine wallet is the creator wallet of $BLAST — every claim, blast and burn is signed from it and visible on Blockscout.`;
 }
 
 function showProgress(p) {
@@ -411,10 +411,10 @@ function showProgress(p) {
   const steps = ["claiming", "buying", "burning"];
   const idx = steps.indexOf(p.status);
   const cls = (s, i) => p.status === "done" || p.status === "skipped" ? "done" : i < idx ? "done" : i === idx ? "on" : "";
-  const head = p.status === "done" ? `<b>Blast #${p.blastId} done${p.dry ? " (dry)" : ""}.</b> ${p.note || ""}`
+  const head = p.status === "done" ? `<b>Blast #${p.blastId} fired${p.dry ? " (dry)" : ""}.</b> ${p.note || ""}`
     : p.status === "skipped" ? `<b>Blast #${p.blastId} rolled over.</b> ${p.note || ""}`
     : p.status === "failed" ? `<b>Blast #${p.blastId} failed.</b> ${p.note || "retrying next blast"}`
-    : `<b>Blast #${p.blastId} firing${p.dry ? " (dry)" : ""}…</b> pot ${fmt(p.pot, 5)} ETH`;
+    : `<b>Blast #${p.blastId} firing${p.dry ? " (dry)" : ""}…</b> ${fmt(p.pot, 5)} ETH into the chart`;
   const tx = (k, label) => p.txs?.[k] ? ` <a class="paid" href="${EXPLORER}/tx/${p.txs[k]}" target="_blank" rel="noopener">${label} tx ↗</a>` : "";
   el.innerHTML = `${head}<div class="steps">${steps.map((s, i) => `<span class="step ${cls(s, i)}">${i + 1}. ${s}${s === "claiming" ? tx("claim", "") : s === "buying" ? tx("buy", "") : tx("burn", "")}</span>`).join("")}</div>`;
   if ((p.status === "done" || p.status === "skipped") && p.blastId !== lastDone) { lastDone = p.blastId; loadBlasts(); loadChart(); }
@@ -592,13 +592,13 @@ async function loadBlasts() {
   const r = await fetch("/api/blasts"); if (!r.ok) return;
   const rows = await r.json();
   const el = $("blasts-list");
-  if (!rows.length) { el.innerHTML = `<p class="empty-note">No blasts yet. The first one fires ${Math.round((info.rules.intervalSec || 180) / 60)} minutes after genesis.</p>`; return; }
+  if (!rows.length) { el.innerHTML = `<p class="empty-note">No blasts yet. The first one fires ${Math.round((info.rules.intervalSec || 180) / 60)} minutes after launch.</p>`; return; }
   const tx = (sig, label) => sig ? `<a href="${EXPLORER}/tx/${sig}" target="_blank" rel="noopener">${label} ↗</a>` : "";
   el.innerHTML = rows.map((b) => {
     const links = [tx(b.claimTx, "claim"), tx(b.buyTx, "buy"), tx(b.burnTx, "burn")].filter(Boolean).join(" · ");
     const who = b.status === "done"
-      ? `${b.dry ? "would claim" : "claimed"} <span>${fmt(b.claimedEth, 5)} ETH</span>, one buy of <span>${fmt(b.spentEth, 5)} ETH</span>${b.venue ? ` on ${b.venue}` : ""}, burned <span>${fmt(b.tokensBurned, 0)} ${SYM()}</span>${b.supplyAfter ? ` · supply now ${compact(b.supplyAfter)}` : ""}${links ? `<br>${links}` : ""}`
-      : b.status === "skipped" ? `pot ${fmt(b.potEth, 5)} ETH — under the minimum, rolled into the next blast`
+      ? `${b.dry ? "would claim" : "claimed"} <span>${fmt(b.claimedEth, 5)} ETH</span>, blasted <span>${fmt(b.spentEth, 5)} ETH</span> into the chart${b.venue ? ` on ${b.venue}` : ""}, burned <span>${fmt(b.tokensBurned, 0)} ${SYM()}</span>${b.supplyAfter ? ` · supply now ${compact(b.supplyAfter)}` : ""}${links ? `<br>${links}` : ""}`
+      : b.status === "skipped" ? `${fmt(b.potEth, 5)} ETH — too small, waits for the next blast`
       : `failed — ${b.note || "retrying next blast"}${links ? `<br>${links}` : ""}`;
     return `<div class="round" data-blast="${b.id}">
       <div class="n">Blast #${b.id}<small>${whenFull(b.t)}</small></div>

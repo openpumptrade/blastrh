@@ -62,9 +62,7 @@
   /* hero */
   .hero { margin-top: 18px; border-radius: var(--r); padding: 44px 40px; background: var(--blast); box-shadow: var(--shadow); display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; align-items: center; overflow: hidden; position: relative; }
   .hero .art { display: grid; place-items: center; }
-  .hero .art img { width: min(100%, 500px); aspect-ratio: 1; object-fit: contain; animation: float 6s ease-in-out infinite; }
-  @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg) scale(1); } 50% { transform: translateY(-14px) rotate(1deg) scale(1.03); } }
-  @media (prefers-reduced-motion: reduce) { .hero .art img { animation: none; } }
+  .hero .art img { width: min(100%, 500px); aspect-ratio: 1; object-fit: contain; }
   .hero .eyebrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
   .hero h1 { margin: 0; font-size: clamp(46px, 7vw, 92px); font-weight: 700; letter-spacing: -0.055em; line-height: 0.92; color: var(--ink); }
   .hero h1 .serif { font-size: 1.04em; letter-spacing: -0.02em; color: var(--coal); }

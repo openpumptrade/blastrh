@@ -476,11 +476,18 @@ function renderTicker() {
 }
 
 // ---------------------------------------------------------------- chart
+let chartFullAt = 0;
 async function loadChart() {
   if (!info?.started) return;
-  const r = await fetch("/api/chart"); if (!r.ok) return;
-  chart = await r.json();
-  pts = chart.points.filter((p) => p.c > 0).map((p) => ({ t: p.t, p: p.c }));
+  const full = !chart || nowS() - chartFullAt > 600;
+  const lastT = pts.length ? pts[pts.length - 1].t : 0;
+  const r = await fetch(full ? "/api/chart" : `/api/chart?since=${lastT}`); if (!r.ok) return;
+  const j = await r.json();
+  if (full || !chart) { chart = j; pts = j.points.filter((p) => p.c > 0).map((p) => ({ t: p.t, p: p.c })); chartFullAt = nowS(); }
+  else {
+    Object.assign(chart, { blasts: j.blasts, priceUsd: j.priceUsd, supply: j.supply, now: j.now });
+    for (const p of j.points) if (p.c > 0 && p.t > lastT) pts.push({ t: p.t, p: p.c });
+  }
   blastDots = chart.blasts.map((b) => { const near = nearest(b.t); return { ...b, p: near ? near.p : chart.priceUsd }; });
   if (view.t1 === 0) setRange(null);
   else if (view.follow) { const span = view.t1 - view.t0; view.t1 = nowT(); view.t0 = view.t1 - span; }

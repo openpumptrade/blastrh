@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
 import cors from "cors";
+import compression from "compression";
 import { config, mode } from "./config.js";
 import { sql } from "./db.js";
 import { ledger, systemSet } from "./indexer.js";
@@ -14,8 +15,15 @@ const now = () => Math.floor(Date.now() / 1000);
 export function startApi(launch) {
   const app = express();
   app.use(cors());
+  app.use(compression());
   app.set("etag", false);
-  app.use("/api", (_req, res, next) => { res.set("cache-control", "no-store"); next(); });
+  // short shared caches: Vercel's edge collapses every viewer into one origin fetch per window
+  const edge = (sec) => (_req, res, next) => { res.set("cache-control", `public, max-age=0, s-maxage=${sec}, stale-while-revalidate=${sec * 4}`); next(); };
+  app.use("/api/token", edge(5));
+  app.use("/api/trades", edge(10));
+  app.use("/api/blasts", edge(20));
+  app.use("/api/chart", edge(15));
+  app.use("/api/health", (_req, res, next) => { res.set("cache-control", "no-store"); next(); });
 
   app.get("/api/health", (_req, res) => res.json({ ok: true, mode: mode(), scheduler: config.schedulerEnabled, started: !!launch, coin: launch?.symbol || "", phase: launch?.phase ?? null, syncing: ledger.syncing, lastBlock: ledger.lastBlock, trades: ledger.trades.length, nextBlastAt: state.nextBlastAt }));
 
@@ -58,14 +66,34 @@ export function startApi(launch) {
   });
 
   /// price history for the chart: every on-chain trade (curve + pool) in USD, plus blast markers
+  /// price history for the chart. The full series is downsampled to ≤ MAX_POINTS
+  /// buckets (last price per bucket) and memoized; `since=<ts>` returns only the
+  /// raw trades after that timestamp so the page pulls deltas, not the world.
+  const MAX_POINTS = 1500;
+  let chartCache = { at: 0, n: 0, points: [] };
+  const blastMarkers = async () => (await sql`select id, ts, dry, spent_eth, tokens_burned from blasts where status = 'done' order by id`).map((b) => ({ id: b.id, t: b.ts, dry: b.dry, spentEth: b.spent_eth, tokens: b.tokens_burned }));
   app.get("/api/chart", async (req, res) => {
     if (!launch) return res.status(404).json({ error: "not started" });
     const usd = coin.usdPerQuote || 0;
     const since = Number(req.query.since || 0);
-    const src = since ? ledger.trades.filter((x) => x.t > since) : ledger.trades;
-    const points = src.map((x) => ({ t: x.t, c: x.price * usd, s: x.side, q: x.quote, w: x.wallet }));
-    const blasts = (await sql`select id, ts, dry, spent_eth, tokens_burned from blasts where status = 'done' order by id`).map((b) => ({ id: b.id, t: b.ts, dry: b.dry, spentEth: b.spent_eth, tokens: b.tokens_burned }));
-    res.json({ source: "chain", points, blasts, priceUsd: ledger.price !== null ? ledger.price * usd : null, priceQuote: ledger.price, usdPerQuote: usd, supply0: coin.supply0, supply: coin.supply, syncing: ledger.syncing, now: now() });
+    const base = { source: "chain", priceUsd: ledger.price !== null ? ledger.price * usd : null, priceQuote: ledger.price, usdPerQuote: usd, supply0: coin.supply0, supply: coin.supply, syncing: ledger.syncing, now: now() };
+    if (since) {
+      const points = ledger.trades.filter((x) => x.t > since).slice(-2000).map((x) => ({ t: x.t, c: x.price * usd, s: x.side, q: x.quote }));
+      return res.json({ ...base, delta: true, points, blasts: await blastMarkers() });
+    }
+    if (Date.now() - chartCache.at > 10_000 || chartCache.n !== ledger.trades.length) {
+      const all = ledger.trades;
+      let points;
+      if (all.length <= MAX_POINTS) points = all.map((x) => ({ t: x.t, c: x.price, s: x.side, q: x.quote }));
+      else {
+        const t0 = all[0].t, t1 = all[all.length - 1].t, step = Math.max(1, Math.ceil((t1 - t0) / MAX_POINTS));
+        const buckets = new Map();
+        for (const x of all) { const k = Math.floor((x.t - t0) / step); const b = buckets.get(k); if (!b) buckets.set(k, { t: x.t, c: x.price, s: x.side, q: x.quote }); else { b.t = x.t; b.c = x.price; b.q += x.quote; } }
+        points = [...buckets.values()];
+      }
+      chartCache = { at: Date.now(), n: all.length, points };
+    }
+    res.json({ ...base, points: chartCache.points.map((p) => ({ ...p, c: p.c * usd })), blasts: await blastMarkers() });
   });
 
   app.get("/api/trades", (_req, res) => {

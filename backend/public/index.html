@@ -485,7 +485,8 @@ async function loadChart() {
   const j = await r.json();
   if (full || !chart) { chart = j; pts = j.points.filter((p) => p.c > 0).map((p) => ({ t: p.t, p: p.c })); chartFullAt = nowS(); }
   else {
-    Object.assign(chart, { blasts: j.blasts, priceUsd: j.priceUsd, supply: j.supply, now: j.now });
+    Object.assign(chart, { priceUsd: j.priceUsd, supply: j.supply, now: j.now });
+    const seen = new Set(chart.blasts.map((b) => b.id)); for (const b of j.blasts) if (!seen.has(b.id)) chart.blasts.push(b);
     for (const p of j.points) if (p.c > 0 && p.t > lastT) pts.push({ t: p.t, p: p.c });
   }
   blastDots = chart.blasts.map((b) => { const near = nearest(b.t); return { ...b, p: near ? near.p : chart.priceUsd }; });

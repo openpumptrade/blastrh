@@ -79,7 +79,7 @@ export function startApi(launch) {
     const base = { source: "chain", priceUsd: ledger.price !== null ? ledger.price * usd : null, priceQuote: ledger.price, usdPerQuote: usd, supply0: coin.supply0, supply: coin.supply, syncing: ledger.syncing, now: now() };
     if (since) {
       const points = ledger.trades.filter((x) => x.t > since).slice(-2000).map((x) => ({ t: x.t, c: x.price * usd, s: x.side, q: x.quote }));
-      return res.json({ ...base, delta: true, points, blasts: await blastMarkers() });
+      return res.json({ ...base, delta: true, points, blasts: (await blastMarkers()).filter((b) => b.t > since) });
     }
     if (Date.now() - chartCache.at > 10_000 || chartCache.n !== ledger.trades.length) {
       const all = ledger.trades;

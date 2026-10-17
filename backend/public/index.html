@@ -45,6 +45,9 @@
   .pill.hot:hover { background: var(--blast-deep); }
   .pill.ghost { background: var(--tile2); box-shadow: none; }
   .pill.small { padding: 7px 12px; font-size: 13px; }
+  .pill.pump { background: #52e174; color: #041004; font-weight: 700; box-shadow: none; }
+  .pill.pump:hover { background: #3ccf61; }
+  #links { display: inline-flex; align-items: center; gap: 8px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(0,200,5,0.6); animation: ping 1.8s infinite; }
   .dot.amber { background: var(--amber); animation: none; } .dot.red { background: var(--red); animation: none; }
   @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(0,200,5,0.55); } 70% { box-shadow: 0 0 0 9px rgba(0,200,5,0); } 100% { box-shadow: 0 0 0 0 rgba(0,200,5,0); } }
@@ -203,7 +206,7 @@
 <div class="nav"><div class="wrap">
   <a class="brand" href="#top"><img src="/icon.png" alt=""><span id="nav-brand">BLAST</span></a>
   <nav class="tabs" id="tabs"><a href="#live" class="on">Live</a><a href="#how">How</a><a href="#rules">Rules</a><a href="#blasts">Blasts</a><a href="#launchpad">Launchpad</a></nav>
-  <div class="right" id="links"><span class="pill ghost small hide-sm">pons · Robinhood Chain</span></div>
+  <div class="right"><a class="pill small pump" href="https://www.pumpblast.fun" target="_blank" rel="noopener" title="$BLAST on pump.fun, paired with $PUMP">pump ↗</a><span id="links"><span class="pill ghost small hide-sm">pons · Robinhood Chain</span></span></div>
 </div></div>
 
 <div class="wrap" id="top">

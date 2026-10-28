@@ -1,5 +1,7 @@
 # BLAST — every 3 minutes, one buy, burned. (Robinhood Chain)
 
+> **Live:** https://www.experimentblast.com · **CA `$BLAST`:** [`0x724a163f0081fa1771590dda9b55edde2c5b823a`](https://www.ponsfamily.com/launchpad/0x724a163f0081fa1771590dda9b55edde2c5b823a) · [X](https://x.com/experimentblast)
+
 Buyback-and-burn engine for a **pons v2** launch on Robinhood Chain. Every `BLAST_INTERVAL_SEC` (3 minutes), on a fixed clock, the engine:
 
 1. claims **100%** of the creator rewards — sweeps the curve fees it is allowed to sweep and claims the pons fee escrow into the engine wallet,
